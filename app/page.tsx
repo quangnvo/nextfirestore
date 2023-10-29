@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { collection, addDoc, getDoc, QuerySnapshot, query, onSnapshot } from "firebase/firestore";
 import { db } from "./firebase";
+import { log } from "console";
 
 export default function Home() {
 
@@ -34,13 +35,22 @@ export default function Home() {
   useEffect(() => {
     const q = query(collection(db, "items"))
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
-      let itemsArr = []
+      let itemsArr: any[] = []
 
       QuerySnapshot.forEach((doc) => {
         itemsArr.push({ ...doc.data(), id: doc.id })
       })
       setItems(itemsArr)
+
+      // Read total from database
+      const calculateTotal = () => {
+        const totalPrice = itemsArr.reduce((sum, item) => sum + parseFloat(item.price), 0)
+        setTotal(totalPrice)
+      }
+      calculateTotal()
+      return () => unsubscribe()
     })
+
   }, [])
 
   // Delete item from database
@@ -93,7 +103,12 @@ export default function Home() {
                   <span>{item.name}</span>
                   <span>${item.price}</span>
                 </div>
-                <button className="ml-8 p-4 border-l-2 w-16">
+
+                {/* Button Delete */}
+                <button
+                  onClick={() => deleteItem(item.id)}
+                  className="ml-8 p-4 border-l-2 w-16"
+                >
                   X
                 </button>
               </li>
