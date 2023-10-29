@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDoc, QuerySnapshot, query, onSnapshot } from "firebase/firestore";
 import { db } from "./firebase";
 
 export default function Home() {
@@ -11,6 +11,7 @@ export default function Home() {
     { name: "Item 2", price: 200 },
     { name: "Item 3", price: 300 },
   ])
+
   const [total, setTotal] = useState(0)
   const [newItem, setNewItem] = useState({ name: "", price: "" })
 
@@ -23,12 +24,24 @@ export default function Home() {
         name: newItem.name.trim(),
         price: newItem.price
       })
+      setNewItem({ name: "", price: "" })
     } else {
 
     }
   }
 
   // Read items from database
+  useEffect(() => {
+    const q = query(collection(db, "items"))
+    const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+      let itemsArr = []
+
+      QuerySnapshot.forEach((doc) => {
+        itemsArr.push({ ...doc.data(), id: doc.id })
+      })
+      setItems(itemsArr)
+    })
+  }, [])
 
   // Delete item from database
 
