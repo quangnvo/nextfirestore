@@ -9,10 +9,13 @@ import {
   getPaginationRowModel,
   useReactTable,
   SortingState,
-  getSortedRowModel
+  getSortedRowModel,
+  ColumnFiltersState,
+  getFilteredRowModel
 } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 import {
   Table,
@@ -34,6 +37,9 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
 
   const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
+    []
+  )
 
   // Thiết lập table (useReactTable() là của Tanstack) 
   const table = useReactTable({
@@ -43,13 +49,28 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
+      columnFilters
     },
   })
 
   return (
     <div>
+      {/* Columb filter */}
+      <div className="flex items-center py-4">
+        <Input
+          placeholder="Filter emails..."
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("email")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      </div>
+
       {/* Table */}
       <div className="rounded-md border">
         <Table>
