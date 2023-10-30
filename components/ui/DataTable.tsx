@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react"
+
 import {
   ColumnDef,
   flexRender,
@@ -30,11 +32,20 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+
+  const [sorting, setSorting] = useState<SortingState>([])
+
+  // Thiết lập table (useReactTable() là của Tanstack) 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
   })
 
   return (
