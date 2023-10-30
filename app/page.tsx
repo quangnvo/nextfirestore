@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { collection, addDoc, getDoc, QuerySnapshot, query, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 import { db } from "./firebase";
 import { log } from "console";
-import { DataTable } from "@/components/ui/DataTable";
+import { DataTable } from "@/components/DataTable";
 import { Payment, columns } from "@/constants/columns";
 
 export default function Home() {

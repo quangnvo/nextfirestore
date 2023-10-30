@@ -1,5 +1,7 @@
+import { DataTablePagination } from "@/components/DataTablePagination"
 import { Payment, columns } from "./columns"
-import { DataTable } from "@/components/ui/DataTable"
+import { DataTable } from "@/components/DataTable"
+
 
 async function getData(): Promise<Payment[]> {
     // Fetch data from your API here.

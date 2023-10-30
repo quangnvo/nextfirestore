@@ -33,6 +33,8 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { DataTablePagination } from "./DataTablePagination"
+import { DataTableViewOptions } from "./DataTableViewOptions"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -116,9 +118,17 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* Show selected rows */}
-      <div className="flex-1 text-sm text-muted-foreground my-4">
+      {/* <div className="flex-1 text-sm text-muted-foreground my-4">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
+      </div> */}
+
+      <div className=" my-4">
+        <DataTablePagination table={table} />
+      </div>
+
+      <div>
+        <DataTableViewOptions table={table} />
       </div>
 
       {/* Table */}
