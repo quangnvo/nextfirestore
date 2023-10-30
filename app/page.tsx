@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import { collection, addDoc, getDoc, QuerySnapshot, query, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 import { db } from "./firebase";
 import { log } from "console";
+import { DataTable } from "@/components/ui/DataTable";
+import { Payment, columns } from "@/constants/columns";
 
 export default function Home() {
 
@@ -108,7 +110,7 @@ export default function Home() {
                   <span>${item.price}</span>
                 </div>
 
-                {/* Button Delete */}
+                {/* Button Delete, ở đây báo lỗi id nhưng vậy chạy được */}
                 <button
                   onClick={() => deleteItem(item.id)}
                   className="ml-8 p-4 border-l-2 w-16"
