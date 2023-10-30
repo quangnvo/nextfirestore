@@ -1,11 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { collection, addDoc, getDoc, QuerySnapshot, query, onSnapshot, deleteDoc, doc } from "firebase/firestore";
+import { collection, addDoc, getDocs, QuerySnapshot, query, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 import { db } from "./firebase";
-import { log } from "console";
-import { DataTable } from "@/components/DataTable";
-import { Payment, columns } from "@/constants/columns";
 
 export default function Home() {
 
@@ -59,8 +56,6 @@ export default function Home() {
   const deleteItem = async (id: string) => {
     await deleteDoc(doc(db, "items", id))
   }
-
-
 
   return (
     <main className="max-w-7xl mx-auto flex min-h-screen flex-col items-center justify-between sm:p-24 p-4">
